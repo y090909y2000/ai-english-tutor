@@ -1,26 +1,160 @@
 @import "tailwindcss";
 
+/* 設計色票：暖米色紙感 + 深靛藍文字 + 珊瑚橘重點色 */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --paper: #f8f5ef;
+  --surface: #ffffff;
+  --ink: #1b1a2e;
+  --muted: #66647a;
+  --line: #e8e2d6;
+  --accent: #e0533a;
+  --accent-strong: #c7432c;
+  --accent-soft: #fdebe5;
+  --brand: #3b3486;
+  --brand-soft: #ecebfa;
+  --good: #1f7a53;
+  --good-soft: #e5f4ec;
+  --bad: #b83232;
+  --bad-soft: #fbeaea;
+  --shadow: 0 1px 2px rgb(27 26 46 / 0.05), 0 8px 24px -12px rgb(27 26 46 / 0.14);
+  color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --paper: #111019;
+    --surface: #1b1a26;
+    --ink: #f0eef7;
+    --muted: #a29fb5;
+    --line: #2e2c3d;
+    --accent: #f0745c;
+    --accent-strong: #f58a74;
+    --accent-soft: #3a211f;
+    --brand: #b3acff;
+    --brand-soft: #27244a;
+    --good: #6fd3a4;
+    --good-soft: #16301f;
+    --bad: #ff9a9a;
+    --bad-soft: #391d22;
+    --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 10px 28px -12px rgb(0 0 0 / 0.6);
+    color-scheme: dark;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@theme inline {
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-soft: var(--accent-soft);
+  --color-brand: var(--brand);
+  --color-brand-soft: var(--brand-soft);
+  --color-good: var(--good);
+  --color-good-soft: var(--good-soft);
+  --color-bad: var(--bad);
+  --color-bad-soft: var(--bad-soft);
+  --shadow-soft: var(--shadow);
+  --font-sans: var(--font-geist-sans), "PingFang TC", "Microsoft JhengHei",
+    sans-serif;
+  --font-display: var(--font-fraunces), "Noto Serif TC", "PingFang TC",
+    "Microsoft JhengHei", serif;
+  --animate-rise: rise 0.35s ease-out both;
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+  }
+}
+
+@layer base {
+  body {
+    background: var(--paper);
+    color: var(--ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--brand);
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  .card {
+    border: 1px solid var(--line);
+    border-radius: 1.25rem;
+    background: var(--surface);
+    box-shadow: var(--shadow);
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 999px;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+      transform 0.15s,
+      opacity 0.15s;
+  }
+
+  .btn-primary:hover:not(:disabled) {
+    transform: translateY(-1px);
+    opacity: 0.9;
+  }
+
+  .btn-primary:disabled {
+    cursor: not-allowed;
+    opacity: 0.4;
+  }
+
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    padding: 0.5rem 0.9rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .btn-ghost:hover {
+    background: color-mix(in srgb, var(--ink) 7%, transparent);
+  }
+
+  /* 背景的柔和光暈 */
+  .glow {
+    background-image:
+      radial-gradient(
+        40rem 28rem at 85% -5%,
+        color-mix(in srgb, var(--accent) 16%, transparent),
+        transparent 70%
+      ),
+      radial-gradient(
+        36rem 28rem at -5% 20%,
+        color-mix(in srgb, var(--brand) 14%, transparent),
+        transparent 70%
+      );
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
 }
